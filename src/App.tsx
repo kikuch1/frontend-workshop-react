@@ -23,17 +23,10 @@ function App() {
     setInput("")
   }
 
-  function handleCheckboxChange(event, task: Task) {
-    console.log("change")
-    setTasks(tasks.map(t => {
-      if (t.id === task.id) {
-        return {
-          ...t,
-          completed: event.target.value,
-        }
-      }
-      return t
-    }))
+  function handleCheckboxChange(task: Task) {
+    setTasks((tasks) => {
+      return tasks.map((t) => (t.id === task.id ? { ...t, completed: !t.completed } : t))
+    })
   }
 
   return (
@@ -46,7 +39,7 @@ function App() {
           <ul>
             {tasks.map(task => (
               <li key={task.id}>
-                <input type="checkbox" checked={task.completed} onChange={(e) => handleCheckboxChange(e, task)}></input>
+                <input type="checkbox" checked={task.completed} onChange={() => handleCheckboxChange(task)}></input>
                 {task.completed ? <s>{task.title}</s> : task.title}
               </li>
             ))}
